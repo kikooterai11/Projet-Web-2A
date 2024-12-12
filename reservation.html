@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation d'Hôtel - ELHADHRA</title>
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+        /* Styling the logo */
+        .circular-logo {
+      
+            <style>
+        /* Style pour rendre l'image circulaire */
+        .circular-logo {
+            width: 150px; /* Taille de l'image */
+            height: 150px; /* Hauteur égale à la largeur */
+            border-radius: 50%; /* Transforme l'image en cercle */
+            overflow: hidden; /* Cache les parties extérieures au cercle */
+            object-fit: cover; /* Adapte l'image sans déformation */
+            border: 3px solid #4CAF50; /* Bordure (optionnel) */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre (optionnel) */
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        header .sitename {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 50px;
+            padding: 15px;
+            border: 2px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 15px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-primary:focus {
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Cart Section */
+        .cart-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-summary h4 {
+            margin-bottom: 15px;
+        }
+
+        .cart-summary ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .cart-summary ul li {
+            margin-bottom: 10px;
+        }
+
+        .cart-summary .total-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Confirmation Section */
+        .confirmation-section {
+            display: none;
+        }
+
+        .confirmation-section input {
+            border-radius: 50px;
+        }
+    </style>
+   
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <img src="img.png.png" alt="Logo Circulaire" class="circular-logo">
+        <p>esprit web project</p>
+    </div>
+
+<header class="header d-flex align-items-center sticky-top">
+    <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="sitename">ELHADHRA</h1>
+    </div>
+</header>
+
+<main class="container mt-5 fade-in">
+    <h2 class="text-center mb-4">Choisir un Hôtel</h2>
+    
+    <form id="hotel-form" class="hotel-form">
+        <!-- Destination Selection -->
+        <div class="mb-3 form-group">
+            <label for="destination" class="form-label">Destination</label>
+            <select id="destination" name="destination" class="form-select" onchange="updateHotels()" required>
+                <option value="">Choisir une destination</option>
+                <option value="tunis">Tunis</option>
+                <option value="sousse">Sousse</option>
+                <option value="djerba">Djerba</option>
+                <option value="tabarka">Tabarka</option>
+            </select>
+        </div>
+        
+        <!-- Hotel Selection -->
+        <div class="mb-3 form-group" id="hotel-section" style="display: none;">
+            <label for="hotel" class="form-label">Choisir un Hôtel</label>
+            <select id="hotel" name="hotel" class="form-select" required>
+                <!-- Dynamic hotel options will be inserted here -->
+            </select>
+        </div>
+
+        <!-- Check-in and Check-out Date -->
+        <div class="mb-3 form-group">
+            <label for="checkin" class="form-label">Date d'arrivée</label>
+            <input type="date" id="checkin" name="checkin" class="form-control" required>
+        </div>
+        
+        <div class="mb-3 form-group">
+            <label for="checkout" class="form-label">Date de départ</label>
+            <input type="date" id="checkout" name="checkout" class="form-control" required>
+        </div>
+
+        <!-- Room Selection -->
+        <div class="mb-3 form-group">
+            <label for="rooms" class="form-label">Nombre de chambres</label>
+            <input type="number" id="rooms" name="rooms" class="form-control" min="1" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" class="btn btn-primary w-100" onclick="showCart()">Réserver</button>
+    </form>
+
+    <!-- Cart Summary -->
+    <div id="cart-summary" class="cart-summary" style="display: none;">
+        <h4>Résumé de la Réservation</h4>
+        <ul>
+            <li id="cart-destination"></li>
+            <li id="cart-hotel"></li>
+            <li id="cart-checkin"></li>
+            <li id="cart-checkout"></li>
+            <li id="cart-rooms"></li>
+            <li id="cart-special-needs"></li>
+        </ul>
+        <p class="total-price" id="cart-total"></p>
+        
+        <!-- Confirmation Form -->
+        <div class="confirmation-section">
+            <h4>Confirmation de Réservation</h4>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Prénom</label>
+                <input type="text" id="first-name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Nom</label>
+                <input type="text" id="last-name" class="form-control" required>
+            </div>
+            <button class="btn btn-primary w-100" onclick="finalizeReservation()">Confirmer la réservation</button>
+        </div>
+        
+        <button class="btn btn-primary w-100" onclick="goToCart()">Ajouter au Panier</button>
+    </div>
+</main>
+
+<script>
+    function updateHotels() {
+        const destination = document.getElementById("destination").value;
+        const hotelSection = document.getElementById("hotel-section");
+        const hotelSelect = document.getElementById("hotel");
+
+        const hotels = {
+            tunis: [
+                { name: "Hotel Tunis", value: "hotel_tunis", price: 100 },
+                { name: "Palace Hotel Tunis", value: "palace_hotel_tunis", price: 200 },
+            ],
+            sousse: [
+                { name: "Hotel Sousse", value: "hotel_sousse", price: 120 },
+                { name: "Marina Sousse", value: "marina_sousse", price: 220 },
+            ],
+            djerba: [
+                { name: "Hotel Djerba", value: "hotel_djerba", price: 150 },
+                { name: "Djerba Beach Resort", value: "djerba_beach_resort", price: 250 },
+            ],
+            tabarka: [
+                { name: "Hotel Tabarka", value: "hotel_tabarka", price: 130 },
+                { name: "Tabarka Resort", value: "tabarka_resort", price: 230 },
+            ]
+        };
+
+        hotelSelect.innerHTML = '<option value="">Choisir un hôtel</option>';
+
+        if (destination) {
+            const availableHotels = hotels[destination];
+            availableHotels.forEach(hotel => {
+                const option = document.createElement("option");
+                option.value = hotel.value;
+                option.textContent = hotel.name;
+                hotelSelect.appendChild(option);
+            });
+            hotelSection.style.display = "block";
+        } else {
+            hotelSection.style.display = "none";
+        }
+    }
+
+    function showCart() {
+        const destination = document.getElementById("destination").value;
+        const hotelValue = document.getElementById("hotel").value;
+        const checkinDate = document.getElementById("checkin").value;
+        const checkoutDate = document.getElementById("checkout").value;
+        const rooms = document.getElementById("rooms").value;
+
+        const hotels = {
+            hotel_tunis: { name: "Hotel Tunis", price: 100 },
+            palace_hotel_tunis: { name: "Palace Hotel Tunis", price: 200 },
+            hotel_sousse: { name: "Hotel Sousse", price: 120 },
+            marina_sousse: { name: "Marina Sousse", price: 220 },
+            hotel_djerba: { name: "Hotel Djerba", price: 150 },
+            djerba_beach_resort: { name: "Djerba Beach Resort", price: 250 },
+            hotel_tabarka: { name: "Hotel Tabarka", price: 130 },
+            tabarka_resort: { name: "Tabarka Resort", price: 230 }
+        };
+
+        const hotel = hotels[hotelValue];
+        const nights = (new Date(checkoutDate) - new Date(checkinDate)) / (1000 * 60 * 60 * 24);
+        const totalPrice = hotel.price * rooms * nights;
+
+        document.getElementById("cart-destination").textContent = `Destination: ${destination}`;
+        document.getElementById("cart-hotel").textContent = `Hôtel: ${hotel.name}`;
+        document.getElementById("cart-checkin").textContent = `Date d'arrivée: ${checkinDate}`;
+        document.getElementById("cart-checkout").textContent = `Date de départ: ${checkoutDate}`;
+        document.getElementById("cart-rooms").textContent = `Chambres: ${rooms}`;
+        document.getElementById("cart-total").textContent = `Prix total: ${totalPrice} TND`;
+
+        document.getElementById("cart-summary").style.display = "block";
+        document.querySelector('.confirmation-section').style.display = "block";
+    }
+
+    function finalizeReservation() {
+        const firstName = document.getElementById("first-name").value;
+        const lastName = document.getElementById("last-name").value;
+
+        alert(`Merci ${firstName} ${lastName}, votre réservation a été confirmée !`);
+        document.getElementById("hotel-form").reset();
+        document.getElementById("cart-summary").style.display = "none";
+    }
+
+    function goToCart() {
+        alert("Votre réservation a été ajoutée au panier.");
+        // Simulate cart addition
+    }
+</script>
+
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
